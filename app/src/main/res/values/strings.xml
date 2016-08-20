@@ -12,6 +12,8 @@
     <string name="sort_date">Sort by release date</string>
     <string name="month_day_yr">mmm-d-yyyy</string>
     <string name="yr_month_day">yyyy-mm-d</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
 
     <string-array name="settings_array">
         <item>@string/date_format</item>
@@ -21,5 +23,10 @@
     <string-array name="date_format_array">
         <item>@string/month_day_yr</item>
         <item>@string/yr_month_day</item>
+    </string-array>
+
+    <string-array name="release_date_sort_array">
+        <item>@string/ascending</item>
+        <item>@string/descending</item>
     </string-array>
 </resources>

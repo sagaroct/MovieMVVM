@@ -19,4 +19,6 @@ public class Constants {
     public static final int PAGE_SIZE = 20;
     public static final int SETTINGS_REQUEST_CODE = 10;
 
+
+
 }
