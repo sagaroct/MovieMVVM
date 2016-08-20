@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.air.movieapp.R;
@@ -30,14 +29,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     public interface OnItemClickListener {
         void onItemClick();
-    }
-
-    public OnItemClickListener getOnItemClickListener() {
-        return onItemClickListener;
-    }
-
-    public void setOnItemClickListener(OnItemClickListener mOnDirectoryPathChangeClickListener) {
-        this.onItemClickListener = mOnDirectoryPathChangeClickListener;
     }
 
     public MoviesAdapter(List<Movie> movies) {
@@ -66,13 +57,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         viewHolder.setData(movies.get(position));
     }
 
-    class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class MovieViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mTvMovieTitle;
         private TextView mTvReleaseDate;
         private TextView mTvMovieDesc;
         private TextView mTvMovieRating;
-        private RelativeLayout mRlMovieContainer;
 
         public MovieViewHolder(View view) {
             super(view);
@@ -80,8 +70,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             mTvReleaseDate = (TextView) view.findViewById(R.id.tv_release_date);
             mTvMovieDesc = (TextView) view.findViewById(R.id.tv_movie_desc);
             mTvMovieRating = (TextView) view.findViewById(R.id.tv_rating);
-            mRlMovieContainer = (RelativeLayout) view.findViewById(R.id.rl_movie_container);
-            mRlMovieContainer.setOnClickListener(this);
         }
 
         public void setData(Movie movie){
@@ -91,10 +79,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             mTvMovieRating.setText(""+Math.round(movie.getVoteAverage()));
         }
 
-        @Override
-        public void onClick(View view) {
-            onItemClickListener.onItemClick();
-        }
     }
 
 }

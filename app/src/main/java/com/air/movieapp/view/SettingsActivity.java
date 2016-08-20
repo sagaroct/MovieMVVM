@@ -4,11 +4,13 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.air.movieapp.R;
@@ -24,12 +26,16 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
     private RecyclerView mRecyclerViewSettings;
     private SharedPreferences mSharedPreferences;
     private SettingsAdapter mSettingsAdapter;
+    private Toolbar mToolbar;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        setTitle(getString(R.string.settings));
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
         mRecyclerViewSettings = (RecyclerView) findViewById(R.id.rv_settings);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -68,12 +74,12 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
         AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
         builder.setCancelable(true);
         builder.setTitle(getString(R.string.date_format));
-        CharSequence[] charSequence = new CharSequence[2];
-        charSequence[0] = getString(R.string.month_day_yr);
-        charSequence[1] = getString(R.string.yr_month_day);
+        CharSequence[] charSequence = getCharSequences();
         builder.setSingleChoiceItems(charSequence, 0, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(DialogInterface dialogInterface, int pos) {
+
+
             }
         });
         String negativeText = getString(android.R.string.cancel);
@@ -88,6 +94,14 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
+    }
+
+    @NonNull
+    private CharSequence[] getCharSequences() {
+        CharSequence[] charSequence = new CharSequence[2];
+        charSequence[0] = getString(R.string.month_day_yr);
+        charSequence[1] = getString(R.string.yr_month_day);
+        return charSequence;
     }
 
 }
