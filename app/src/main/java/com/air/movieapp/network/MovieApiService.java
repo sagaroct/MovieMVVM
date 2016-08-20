@@ -7,7 +7,7 @@
 
 package com.air.movieapp.network;
 
-import com.air.movieapp.model.Movie;
+import com.air.movieapp.model.Results;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -19,12 +19,12 @@ import retrofit2.http.Query;
 public interface MovieApiService {
 
     @GET("movie/top_rated")
-    Call<Movie> getTopRatedMovies(@Query("api_key") String apiKey);
+    Call<Results> getTopRatedMovies(@Query("api_key") String apiKey, @Query("page") int page);
 
     @GET("movie/upcoming")
-    Call<Movie> getUpcomingMovies(@Query("api_key") String apiKey);
+    Call<Results> getUpcomingMovies(@Query("api_key") String apiKey, @Query("page") int page);
 
     @GET("movie/popular")
-    Call<Movie> getPopularMovies(@Query("api_key") String apiKey);
+    Call<Results> getPopularMovies(@Query("api_key") String apiKey, @Query("page") int page);
 
 }

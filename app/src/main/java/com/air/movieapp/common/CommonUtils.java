@@ -18,13 +18,13 @@ public class CommonUtils {
         Bundle bundle = new Bundle();
         switch (pos){
             case 0:
-                bundle.putString(Constants.SCREEN, Constants.TOP_RATED);
+                bundle.putInt(Constants.TAB, Constants.TOP_RATED);
                 break;
             case 1:
-                bundle.putString(Constants.SCREEN, Constants.UPCOMING);
+                bundle.putInt(Constants.TAB, Constants.UPCOMING);
                 break;
             case 2:
-                bundle.putString(Constants.SCREEN, Constants.POPULAR);
+                bundle.putInt(Constants.TAB, Constants.POPULAR);
                 break;
         }
         return bundle;

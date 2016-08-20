@@ -5,7 +5,7 @@
  *
  */
 
-package com.air.movieapp;
+package com.air.movieapp.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.air.movieapp.R;
 import com.air.movieapp.model.Movie;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     @Override
     public int getItemCount() {
-        return this.movies.size();
+        return this.movies !=null ? movies.size():0;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View view = inflater.inflate(R.layout.row_movie, viewGroup, false);
+        View view = inflater.inflate(R.layout.view_movie, viewGroup, false);
         return new MovieViewHolder(view);
     }
 
@@ -87,7 +88,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             mTvMovieTitle.setText(movie.getTitle());
             mTvReleaseDate.setText(movie.getReleaseDate());
             mTvMovieDesc.setText(movie.getOverview());
-            mTvMovieRating.setText((int) movie.getVoteAverage());
+            mTvMovieRating.setText(""+Math.round(movie.getVoteAverage()));
         }
 
         @Override
