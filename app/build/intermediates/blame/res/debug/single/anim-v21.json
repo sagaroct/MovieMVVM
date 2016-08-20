@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/home/sagar/Desktop/Movie_New/android_evaluation_2016_Sagar_S_Pujari/app/build/intermediates/res/merged/debug/anim-v21/design_bottom_sheet_slide_out.xml",
+        "source": "/home/sagar/Desktop/Movie_New/android_evaluation_2016_Sagar_S_Pujari/app/build/intermediates/exploded-aar/com.android.support/design/24.0.0/res/anim-v21/design_bottom_sheet_slide_out.xml"
+    },
+    {
+        "merged": "/home/sagar/Desktop/Movie_New/android_evaluation_2016_Sagar_S_Pujari/app/build/intermediates/res/merged/debug/anim-v21/design_appbar_state_list_animator.xml",
+        "source": "/home/sagar/Desktop/Movie_New/android_evaluation_2016_Sagar_S_Pujari/app/build/intermediates/exploded-aar/com.android.support/design/24.0.0/res/anim-v21/design_appbar_state_list_animator.xml"
+    },
+    {
+        "merged": "/home/sagar/Desktop/Movie_New/android_evaluation_2016_Sagar_S_Pujari/app/build/intermediates/res/merged/debug/anim-v21/design_bottom_sheet_slide_in.xml",
+        "source": "/home/sagar/Desktop/Movie_New/android_evaluation_2016_Sagar_S_Pujari/app/build/intermediates/exploded-aar/com.android.support/design/24.0.0/res/anim-v21/design_bottom_sheet_slide_in.xml"
+    }
+]

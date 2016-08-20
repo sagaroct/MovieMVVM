@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/sagar/Desktop/Movie_New/android_evaluation_2016_Sagar_S_Pujari/app/build/intermediates/res/merged/debug/color-v11/abc_background_cache_hint_selector_material_dark.xml",
+        "source": "/home/sagar/Desktop/Movie_New/android_evaluation_2016_Sagar_S_Pujari/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0/res/color-v11/abc_background_cache_hint_selector_material_dark.xml"
+    },
+    {
+        "merged": "/home/sagar/Desktop/Movie_New/android_evaluation_2016_Sagar_S_Pujari/app/build/intermediates/res/merged/debug/color-v11/abc_background_cache_hint_selector_material_light.xml",
+        "source": "/home/sagar/Desktop/Movie_New/android_evaluation_2016_Sagar_S_Pujari/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0/res/color-v11/abc_background_cache_hint_selector_material_light.xml"
+    }
+]

@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/sagar/Desktop/Movie_New/android_evaluation_2016_Sagar_S_Pujari/app/build/intermediates/res/merged/debug/menu/main_menu.xml",
+        "source": "/home/sagar/Desktop/Movie_New/android_evaluation_2016_Sagar_S_Pujari/app/src/main/res/menu/main_menu.xml"
+    },
+    {
+        "merged": "/home/sagar/Desktop/Movie_New/android_evaluation_2016_Sagar_S_Pujari/app/build/intermediates/res/merged/debug/menu/navigation_drawer_menu.xml",
+        "source": "/home/sagar/Desktop/Movie_New/android_evaluation_2016_Sagar_S_Pujari/app/src/main/res/menu/navigation_drawer_menu.xml"
+    }
+]
