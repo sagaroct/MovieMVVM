@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MovieApp</string>
+    <string name="release_date">Release Date:</string>
+    <string name="movie_name">Movie Name</string>
+    <string name="_12_10_1992">12/10/1992</string>
+    <string name="top_rated">TOP RATED</string>
+    <string name="upcoming">UPCOMING</string>
+    <string name="popular">POPULAR</string>
+    <string name="share">Share</string>
+    <string name="settings">Settings</string>
+</resources>
