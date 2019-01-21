@@ -16,12 +16,10 @@ import java.util.List;
 class MovieViewHolder extends RecyclerView.ViewHolder {
 
 
-    private MovieListAdapter movieListAdapter;
     ViewMovieConstraintBinding binding;
 
-    public MovieViewHolder(MovieListAdapter movieListAdapter, final List<Movie> movieList, final View view) {
+    public MovieViewHolder(final List<Movie> movieList, final View view) {
         super(view);
-        this.movieListAdapter = movieListAdapter;
         binding = DataBindingUtil.bind(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override

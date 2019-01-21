@@ -26,15 +26,6 @@ import java.util.List;
 public class MovieListAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 
     private List<Movie> mMovieList;
-    private OnItemClickListener mOnClickListener;
-
-    public interface OnItemClickListener {
-        void onItemClicked();
-    }
-
-    public void setOnItemClickListener(OnItemClickListener onClickListener) {
-        this.mOnClickListener = onClickListener;
-    }
 
     public MovieListAdapter(List<Movie> movies) {
         this.mMovieList = movies;
@@ -56,7 +47,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieViewHolder> {
                 LayoutInflater.from(viewGroup.getContext()),
                 R.layout.view_movie_constraint,
                 viewGroup, false);
-        return new MovieViewHolder(this, mMovieList, binding.getRoot());
+        return new MovieViewHolder( mMovieList, binding.getRoot());
     }
 
     @Override

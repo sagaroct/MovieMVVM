@@ -59,19 +59,14 @@ public class MovieListViewModel extends ViewModel {
 
          @Override
          public void failure(Call call, NetworkError error) {
- //            mView.showProgress(false);
              mProgresShow.set(false);
          }
 
          @Override
          public void onTimeOut(Call call) {
- //            mView.showProgress(false);
              mProgresShow.set(false);
          }
      });
     }
 
-    public void setObservableMovies(MutableLiveData<List<Movie>> mObservableMovies) {
-        this.mObservableMovies = mObservableMovies;
-    }
 }

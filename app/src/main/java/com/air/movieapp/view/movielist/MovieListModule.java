@@ -25,7 +25,7 @@ public class MovieListModule {
     }
 
     @Provides
-    @MovieListScope
+//    @MovieListScope
     public MovieListAdapter provideMovieListAdapter(){
         return new MovieListAdapter(new ArrayList<Movie>());
     }

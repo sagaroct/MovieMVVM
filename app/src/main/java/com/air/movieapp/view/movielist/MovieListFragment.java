@@ -44,7 +44,7 @@ import javax.inject.Named;
 /**
  * Common fragment for all movie listing
  */
-public class MovieListFragment extends BaseFragment implements MovieListAdapter.OnItemClickListener {
+public class MovieListFragment extends BaseFragment {
 
     private static final String TAG = MovieListFragment.class.getSimpleName();
 
@@ -55,9 +55,6 @@ public class MovieListFragment extends BaseFragment implements MovieListAdapter.
     @Inject
     MovieListAdapter mMovieListAdapter;
 
-//    @Inject
-    private LinearLayoutManager mLinearLayoutManager;
-
     @Inject
     @Named("SimpleService")
     MoviesRepository mMoviesRepository;
@@ -67,19 +64,17 @@ public class MovieListFragment extends BaseFragment implements MovieListAdapter.
         super.onCreate(state);
         Bundle args = getArguments();
         mType = args.getString(Constants.TAB);
-//        getLifecycle().addObserver(new LifecycleLearningObserver());
     }
 
     @Override
     protected void setupFragmentComponent() {
-        MovieApplication.get(getActivity()).createMovieListComponent(getActivity()).inject(this);
+        MovieApplication.get(getActivity()).getAppComponent().plus(new MovieListModule(getActivity())).inject(this);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: called");
-//        View view = inflater.inflate(R.layout.fragment_movie, container, false);
         mFragmentMovieBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie, container, false);
         View view = mFragmentMovieBinding.getRoot();
         MovieListViewModelFactory factory = new MovieListViewModelFactory(mMoviesRepository, mType,1);
@@ -101,15 +96,10 @@ public class MovieListFragment extends BaseFragment implements MovieListAdapter.
     }
 
     public void initAdapter() {
-        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mFragmentMovieBinding.rvMovie.setItemAnimator(new DefaultItemAnimator());
         mFragmentMovieBinding.rvMovie.setLayoutManager(mLinearLayoutManager);
         mFragmentMovieBinding.rvMovie.setAdapter(mMovieListAdapter);
-//        mMovieListAdapter.setOnItemClickListener(this);
     }
 
-    @Override
-    public void onItemClicked() {
-        Log.d(TAG, "onItemClicked: called");
-    }
 }
