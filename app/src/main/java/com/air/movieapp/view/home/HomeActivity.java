@@ -5,10 +5,12 @@
  *  * Written under contract by Robosoft Technologies Pvt. Ltd.
  *
  */
-package com.air.movieapp.view;
+package com.air.movieapp.view.home;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -17,47 +19,61 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.air.movieapp.MovieApplication;
 import com.air.movieapp.R;
 import com.air.movieapp.common.CommonUtils;
 import com.air.movieapp.common.Constants;
+import com.air.movieapp.databinding.ActivityMainBinding;
+import com.air.movieapp.view.SettingsActivity;
+import com.air.movieapp.view.base.BaseActivity;
+import com.air.movieapp.view.movielist.MovieListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 
 /**
  * Main Container where all movie fragments are added
  */
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
 
-    private Toolbar mToolbar;
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
-    private DrawerLayout mDrawerLayout;
+    private ActivityMainBinding mActivityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,R.string.app_name,R.string.app_name);
-        mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        mViewPager.setAdapter(getViewPagerAdapterWithAddedFragments());
-        mTabLayout = (TabLayout) findViewById(R.id.tabs);
-        mTabLayout.setupWithViewPager(mViewPager);
+        mActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        setSupportActionBar(mActivityMainBinding.toolbar);
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mActivityMainBinding.drawerLayout,
+                mActivityMainBinding.toolbar,R.string.app_name,R.string.app_name);
+        mActivityMainBinding.drawerLayout.addDrawerListener(mActionBarDrawerToggle);
+        mActionBarDrawerToggle.syncState();
+        mActivityMainBinding.viewpager.setOffscreenPageLimit(3);
+        setAdapterToViewPager(mActivityMainBinding.viewpager, getSupportFragmentManager());
+        mActivityMainBinding.tabs.setupWithViewPager(mActivityMainBinding.viewpager);
         setNavigationDrawer();
+    }
+
+    public void setAdapterToViewPager(ViewPager mViewPager, FragmentManager fragmentManager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(fragmentManager);
+        MovieListFragment topratedMovieFragment = new MovieListFragment();
+        topratedMovieFragment.setArguments(CommonUtils.getBundleWithValue(0));
+        adapter.addFragment(topratedMovieFragment, getString(R.string.top_rated));
+        MovieListFragment upcomingMovieFragment = new MovieListFragment();
+        upcomingMovieFragment.setArguments(CommonUtils.getBundleWithValue(1));
+        adapter.addFragment(upcomingMovieFragment, getString(R.string.upcoming));
+        MovieListFragment popularMovieFragment = new MovieListFragment();
+        popularMovieFragment.setArguments(CommonUtils.getBundleWithValue(2));
+        adapter.addFragment(popularMovieFragment, getString(R.string.popular));
+        mViewPager.setAdapter(adapter);
     }
 
     @Override
@@ -72,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_share:
                 break;
             case R.id.menu_settings:
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
                 startActivityForResult(intent, Constants.SETTINGS_REQUEST_CODE);
                 break;
         }
@@ -104,30 +120,19 @@ public class MainActivity extends AppCompatActivity {
                         pos = 2;
                         break;
                 }
-                mViewPager.setCurrentItem(pos, true);
-                mDrawerLayout.closeDrawers();
+                mActivityMainBinding.viewpager.setCurrentItem(pos, true);
+                mActivityMainBinding.drawerLayout.closeDrawers();
                 return true;
             }
         });
     }
 
-    private ViewPagerAdapter getViewPagerAdapterWithAddedFragments() {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        MovieFragment topratedMovieFragment = new MovieFragment();
-        topratedMovieFragment.setArguments(CommonUtils.getBundleWithValue(0));
-        adapter.addFragment(topratedMovieFragment, getString(R.string.top_rated));
-        MovieFragment upcomingMovieFragment = new MovieFragment();
-        upcomingMovieFragment.setArguments(CommonUtils.getBundleWithValue(1));
-        adapter.addFragment(upcomingMovieFragment, getString(R.string.upcoming));
-        MovieFragment popularMovieFragment = new MovieFragment();
-        popularMovieFragment.setArguments(CommonUtils.getBundleWithValue(2));
-        adapter.addFragment(popularMovieFragment, getString(R.string.popular));
-        return adapter;
-    }
+    @Override
+    protected void setupActivityComponent() { }
 
     class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-        private final List<MovieFragment> mFragmentList = new ArrayList<>();
+        private final List<MovieListFragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
@@ -135,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public MovieFragment getItem(int position) {
+        public MovieListFragment getItem(int position) {
             return mFragmentList.get(position);
         }
 
@@ -144,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
 
-        public void addFragment(MovieFragment fragment, String title) {
+        public void addFragment(MovieListFragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
@@ -153,5 +158,11 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        MovieApplication.get(HomeActivity.this).releaseMovieListComponent();
+        super.onDestroy();
     }
 }

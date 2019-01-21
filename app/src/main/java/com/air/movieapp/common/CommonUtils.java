@@ -21,13 +21,13 @@ public class CommonUtils {
         Bundle bundle = new Bundle();
         switch (pos){
             case 0:
-                bundle.putInt(Constants.TAB, Constants.TOP_RATED);
+                bundle.putSerializable(Constants.TAB, Constants.TOP_RATED);
                 break;
             case 1:
-                bundle.putInt(Constants.TAB, Constants.UPCOMING);
+                bundle.putSerializable(Constants.TAB, Constants.UPCOMING);
                 break;
             case 2:
-                bundle.putInt(Constants.TAB, Constants.POPULAR);
+                bundle.putSerializable(Constants.TAB, Constants.POPULAR);
                 break;
         }
         return bundle;
