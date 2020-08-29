@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atMost;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -59,6 +60,9 @@ public class MovieListViewModelTest {
     @Mock
     private Observer<List<Movie>> observer;
 
+    @Mock
+    private Observer<Boolean> mProgresShow;
+
     @Before
     public void setupMovieListPresenter() {
         // Mockito has a very convenient way to inject mocks by using the @Mock annotation. To
@@ -76,23 +80,19 @@ public class MovieListViewModelTest {
         when(mNetworkUtils.isNetworkConnected()).thenReturn(true);
         movieListViewModel.getMoviesFromNetwork(Constants.POPULAR, 1);
         // Callback is captured and invoked with stubbed movies
-        verify(mMoviesRepository).getMoviesLiveData(eq(Constants.POPULAR), eq(1), mLoadMoviesCallbackCaptor.capture());
+        verify(mMoviesRepository, atMost(2)).getMoviesLiveData(eq(Constants.POPULAR), eq(1), mLoadMoviesCallbackCaptor.capture());
         results.setMovies(MOVIES);
         mLoadMoviesCallbackCaptor.getValue().successFromNetwork(results);
         movieListViewModel.getMoviesLiveData().observeForever(observer);
-        verify(observer).onChanged((MOVIES));
-
-        // Then progress indicator is hidden and movies are shown in UI.
-       /* verify(mView, atMost(2)).showProgress(false);
-        verify(mView, atMost(2)).showList(MOVIES);*/
+        verify(observer, atMost(2)).onChanged((MOVIES));
     }
 
-    /*@Test
+    @Test
     public void loadEmptyMoviesIntoView() {
         when(mNetworkUtils.isNetworkConnected()).thenReturn(true);
         // Given an initialized MovieListPresenter with initialized movies
         // When loading of Movies is requested
-        movieListViewModel.fetchMovies(Constants.POPULAR);
+        movieListViewModel.getMoviesFromNetwork(Constants.POPULAR, 1);
 
         // Callback is captured and invoked with stubbed movies
         verify(mMoviesRepository).getMovies(eq(Constants.POPULAR), eq(1), mLoadMoviesCallbackCaptor.capture());
@@ -100,21 +100,7 @@ public class MovieListViewModelTest {
         mLoadMoviesCallbackCaptor.getValue().successFromNetwork(results);
 
         // Then progress indicator is hidden and emptyview is shown in UI.
-        verify(mView, atMost(2)).showProgress(false);
-        verify(mView).showEmptyView();
+        verify(mProgresShow).onChanged(true);
     }
 
-    @Test
-    public void loadMoviesWithNoInternetError() {
-        // Given an initialized MovieListPresenter with initialized movies
-        // When loading of Movies is requested
-        when(mNetworkUtils.isNetworkConnected()).thenReturn(false);
-        movieListViewModel.fetchMovies(Constants.POPULAR);
-//        assertEquals(true, mNetworkUtils.isNetworkConnected());
-//        doReturn(false).when(mNetworkUtils).isNetworkConnected();
-
-        // No internet toast shown and emptyview displayed.
-        verify(mView).showNoInternetDialog();
-//        verify(mView).showEmptyView();
-    }*/
 }
