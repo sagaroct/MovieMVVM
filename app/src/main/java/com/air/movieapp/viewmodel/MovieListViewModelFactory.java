@@ -21,7 +21,6 @@ public class MovieListViewModelFactory implements ViewModelProvider.Factory {
         this.mPage = page;
     }
 
-
     @Override
     public <T extends ViewModel> T create(Class<T> aClass) {
         if (aClass.isAssignableFrom(MovieListViewModel.class)) {

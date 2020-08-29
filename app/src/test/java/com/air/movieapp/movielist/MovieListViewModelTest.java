@@ -27,12 +27,13 @@ import java.util.List;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by sagar on 14/12/17.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class MovieListPresenterTest {
+public class MovieListViewModelTest {
 
     @Rule
     public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
@@ -72,13 +73,13 @@ public class MovieListPresenterTest {
     public void loadMoviesFromRepositoryAndLoadIntoView() {
         // Given an initialized MovieListPresenter with initialized movies
         // When loading of Movies is requested
-//        when(mNetworkUtils.isNetworkConnected()).thenReturn(true);
+        when(mNetworkUtils.isNetworkConnected()).thenReturn(true);
         movieListViewModel.getMoviesFromNetwork(Constants.POPULAR, 1);
         // Callback is captured and invoked with stubbed movies
         verify(mMoviesRepository).getMoviesLiveData(eq(Constants.POPULAR), eq(1), mLoadMoviesCallbackCaptor.capture());
         results.setMovies(MOVIES);
         mLoadMoviesCallbackCaptor.getValue().successFromNetwork(results);
-        movieListViewModel.getObservableMovies().observeForever(observer);
+        movieListViewModel.getMoviesLiveData().observeForever(observer);
         verify(observer).onChanged((MOVIES));
 
         // Then progress indicator is hidden and movies are shown in UI.

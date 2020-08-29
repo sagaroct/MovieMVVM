@@ -84,7 +84,8 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui:$nav_version" // use -ktx for Kotlin
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
+    compile 'io.reactivex.rxjava2:rxjava:2.1.5'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
     // optional - Test helpers
 //    androidTestImplementation "android.arch.navigation:navigation-testing:$nav_version" // use -ktx for Kotlin

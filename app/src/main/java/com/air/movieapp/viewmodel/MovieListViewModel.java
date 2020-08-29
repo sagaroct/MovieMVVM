@@ -4,14 +4,19 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableBoolean;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 
+import com.air.movieapp.common.Constants;
 import com.air.movieapp.model.Movie;
 import com.air.movieapp.model.Results;
 import com.air.movieapp.network.MoviesRepository;
 import com.air.movieapp.network.NetworkError;
 import com.air.movieapp.network.ResponseCallback;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -23,13 +28,15 @@ import retrofit2.Call;
 
 public class MovieListViewModel extends ViewModel {
 
-    private MutableLiveData<List<Movie>> mObservableMovies;
+    private MutableLiveData<List<Movie>> listMutableLiveData;
     private MoviesRepository mMoviesRepository;
     public ObservableBoolean mProgresShow = new ObservableBoolean(false);
 
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public MovieListViewModel(@NonNull MoviesRepository moviesRepository, String category, int page) {
-        mObservableMovies = new MutableLiveData<>();
+        listMutableLiveData = new MutableLiveData<>();
         this.mMoviesRepository = moviesRepository;
         getMoviesFromNetwork(category, page);
     }
@@ -37,8 +44,21 @@ public class MovieListViewModel extends ViewModel {
     /**
      * Expose the LiveData Movies query so the UI can observe it.
      */
-    public LiveData<List<Movie>> getObservableMovies() {
-        return mObservableMovies;
+    public LiveData<List<Movie>> getMoviesLiveData() {
+        return listMutableLiveData;
+    }
+
+
+    public void sortBy(Constants.SortType sortType) {
+        switch (sortType){
+            case TITLE:  Collections.sort(listMutableLiveData.getValue(), new Comparator<Movie>() {
+                @Override
+                public int compare(Movie m1, Movie m2) {
+                    return m1.getTitle().compareTo(m2.getTitle());
+                }
+            });
+            listMutableLiveData.setValue(listMutableLiveData.getValue());
+        }
     }
 
     public void getMoviesFromNetwork(String category, int page) {
@@ -48,13 +68,13 @@ public class MovieListViewModel extends ViewModel {
          @Override
          public void successFromNetwork(Results results) {
              mProgresShow.set(false);
-             mObservableMovies.setValue(results.getMovies());
+             listMutableLiveData.setValue(results.getMovies());
          }
 
          @Override
          public void successFromDatabase(Results results) {
              mProgresShow.set(false);
-             mObservableMovies.setValue(results.getMovies());
+             listMutableLiveData.setValue(results.getMovies());
          }
 
          @Override

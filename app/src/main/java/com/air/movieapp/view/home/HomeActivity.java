@@ -14,14 +14,17 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.air.movieapp.MovieApplication;
 import com.air.movieapp.R;
@@ -79,18 +82,35 @@ public class HomeActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem searchViewItem = menu.findItem(R.id.search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                getCurrentFragment().filter(query);
+                return false;
+
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.menu_share:
+            case R.id.menu_sort_title: getCurrentFragment().sortBy(Constants.SortType.TITLE);
+
+         /*   case R.id.menu_share:
                 break;
             case R.id.menu_settings:
                 Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
                 startActivityForResult(intent, Constants.SETTINGS_REQUEST_CODE);
-                break;
+                break;*/
         }
         return true;
     }
@@ -164,5 +184,13 @@ public class HomeActivity extends BaseActivity {
     protected void onDestroy() {
         MovieApplication.get(HomeActivity.this).releaseMovieListComponent();
         super.onDestroy();
+    }
+
+    private MovieListFragment getCurrentFragment(){
+        Fragment fragment =
+                getSupportFragmentManager().
+                        getFragments().get(mActivityMainBinding.viewpager.getCurrentItem());
+        if(fragment instanceof MovieListFragment) return (MovieListFragment) fragment;
+        return null;
     }
 }

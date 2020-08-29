@@ -8,15 +8,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<item android:id="@+id/menu_share"
+    <item android:id="@+id/search"
+            android:title="Search"
+            android:icon="@android:drawable/ic_menu_search"
+            app:showAsAction="collapseActionView|ifRoom"
+            app:actionViewClass="android.widget.SearchView" />
+
+    <item android:id="@+id/menu_sort_title"
+        android:title="@string/settings"
+        app:showAsAction="never"
+        android:orderInCategory="105"/>
+
+<!--<item android:id="@+id/menu_share"
       android:title="@string/share"
       android:icon="@android:drawable/ic_menu_share"
       app:showAsAction="always"
       android:orderInCategory="100"/>
 
+
 <item android:id="@+id/menu_settings"
       android:title="@string/settings"
       app:showAsAction="never"
-      android:orderInCategory="105"/>
+      android:orderInCategory="105"/>-->
 
 </menu>

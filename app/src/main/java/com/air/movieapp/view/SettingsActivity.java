@@ -74,6 +74,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
             CommonUtils.showDialogToChangeDateFormat(SettingsActivity.this, getString(R.string.sort_date), getSortReleaseDateCharSequences(), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+
                 }
             });
         }

@@ -29,14 +29,14 @@ public class Movie extends BaseObservable{
     private String title;
 
     @ColumnInfo(name = "releaseDate")
-    private String release_date;
+    private String release_date = "";
 
     private String overview;
 
     @ColumnInfo(name = "voteAverage")
     private float vote_average;
 
-    private String type;
+    private String type = "";
 
     private boolean visible = true;
 

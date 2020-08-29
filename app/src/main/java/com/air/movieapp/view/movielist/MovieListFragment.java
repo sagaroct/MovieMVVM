@@ -7,22 +7,17 @@
 
 package com.air.movieapp.view.movielist;
 
-import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.air.movieapp.MovieApplication;
 import com.air.movieapp.R;
@@ -30,7 +25,6 @@ import com.air.movieapp.adapter.movielist.MovieListAdapter;
 import com.air.movieapp.common.Constants;
 import com.air.movieapp.databinding.FragmentMovieBinding;
 import com.air.movieapp.model.Movie;
-import com.air.movieapp.model.Results;
 import com.air.movieapp.network.MoviesRepository;
 import com.air.movieapp.view.base.BaseFragment;
 import com.air.movieapp.viewmodel.MovieListViewModel;
@@ -86,7 +80,7 @@ public class MovieListFragment extends BaseFragment {
     }
 
     private void getMovieList() {
-        mMovieListViewModel.getObservableMovies().observe(this, new Observer<List<Movie>>() {
+        mMovieListViewModel.getMoviesLiveData().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(@Nullable List<Movie> movies) {
                 Log.d(TAG, "onChanged: called");
@@ -95,11 +89,20 @@ public class MovieListFragment extends BaseFragment {
         });
     }
 
+
     public void initAdapter() {
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mFragmentMovieBinding.rvMovie.setItemAnimator(new DefaultItemAnimator());
         mFragmentMovieBinding.rvMovie.setLayoutManager(mLinearLayoutManager);
         mFragmentMovieBinding.rvMovie.setAdapter(mMovieListAdapter);
+    }
+
+    public void filter(String searchText) {
+        mMovieListAdapter.getFilter().filter(searchText);
+    }
+
+    public void sortBy(Constants.SortType sortType) {
+        mMovieListViewModel.sortBy(sortType);
     }
 
 }
